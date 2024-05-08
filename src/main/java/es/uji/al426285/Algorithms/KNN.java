@@ -23,8 +23,10 @@ public class KNN extends EuclideanDistance implements Algorithm<TableWithLabels,
 
         if (aux==null || data==null) throw new NullPointerException("Tabla/Lista vacia");
         if (data.size()==0) return candidato;//si la lista esta vacia devolvemos null
-
+        System.out.println("janj:"+aux.getListaWithLabels().toString());
+        System.out.println("aj2:"+aux.getLista().toString());
         for (RowWithLabel fila_aux: aux.getListaWithLabels()){//recorremos la lista de filas de la tabla aux
+            System.out.println("s:"+fila_aux);
             //calculamos las distancia
             //entre las listas de la tabla y la lista que tenemos como parametros
             double distancia= calculateDistance(data,fila_aux.getData());

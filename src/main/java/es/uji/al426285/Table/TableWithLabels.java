@@ -1,6 +1,7 @@
 package es.uji.al426285.Table;
 
 import es.uji.al426285.Reader.CSVLabeledFileReader;
+import es.uji.al426285.Row.Row;
 import es.uji.al426285.Row.RowWithLabel;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class TableWithLabels extends Table{
 
    // private TableWithLabels tabla;
     public TableWithLabels() {
-        this.header=new ArrayList<>();
+        lista=new ArrayList<>();
         this.lista=new ArrayList<>();
         labelsToIndex = new HashMap<>();
     }
@@ -25,6 +26,8 @@ public class TableWithLabels extends Table{
         this.header = g.getHeader(); // No hace falta asignar el header, ya está hecho en el constructor de la superclase
         this.lista = g.getListaWithLabels();
         this.labelsToIndex = g.getLabelsToIndex();
+        System.out.println("messi:"+lista.toString());
+        System.out.println("mesii2:"+g.getListaWithLabels());
     }
 
     public void addRowWithLabel(RowWithLabel fila) {
@@ -48,7 +51,12 @@ public class TableWithLabels extends Table{
     }
 
     public List<RowWithLabel> getListaWithLabels(){
-        return lista;
+        List<RowWithLabel> lista= new ArrayList<>();
+        for (Row linea: super.getLista()){
+            lista.add((RowWithLabel) linea);
+        }
+        System.out.println("aquiii: "+this.lista.toString());
+        return this.lista=lista;
     }
 
     public String headerToString(){

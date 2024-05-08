@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KNNTest {
-    TableWithLabels prueba= new TableWithLabels();
+    TableWithLabels prueba;
     KNN knn=new KNN(new EuclideanDistance());
 
     List<Double> lista1=null;//lista null
@@ -17,7 +17,9 @@ class KNNTest {
     List<Double> lista3=new ArrayList<>();//Iris-versicolor (1)
     List<Double> lista4=new ArrayList<>();//Iris-virginica (2)
     List<Double> lista5=new ArrayList<>();//lista vacia
-    public void asignar_valores(){
+    public void asignar_valores() throws Exception {
+        prueba= new TableWithLabels("src/main/java/es/uji/al426285/Files/iris.csv");
+        System.out.println("prueba:"+prueba.getListaWithLabels().toString());
         lista2.add(5.1);lista2.add(3.5);lista2.add(1.4);lista2.add(0.2);
         lista3.add(6.4); lista3.add(2.9); lista3.add(4.3); lista3.add(1.3);
         lista4.add(6.2); lista4.add(2.5); lista4.add(5.0); lista4.add(1.9);
@@ -25,9 +27,9 @@ class KNNTest {
     }
 
     @Test
-    void estimate() {
+    void estimate() throws Exception {
         asignar_valores();
-        assertThrows(NullPointerException.class, () -> knn.estimate(lista1));//si lista vacia es null, comprobar que lanxza la excepcion
+        assertThrows(NullPointerException.class, () -> knn.estimate(lista1));//si lista vacia es null, comprobar que lanza la excepcion
         assertEquals(0,knn.estimate(lista2));
         assertEquals(1,knn.estimate(lista3));
         assertEquals(2,knn.estimate(lista4));

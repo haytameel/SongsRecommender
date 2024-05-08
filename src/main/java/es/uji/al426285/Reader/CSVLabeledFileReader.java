@@ -40,7 +40,7 @@ public class CSVLabeledFileReader extends CSVUnlabeledFileReader{
         Integer e=super.getTabla().addLabel(etiqueta);
         RowWithLabel linea=new RowWithLabel(fila,e);//creamos la linea que almacena los doubles y la añadimos al la lista de rows
 
-        super.getLista_rows().add(linea);
+        super.getTabla().getLista().add(linea);
         super.getTabla().addLabel(etiqueta);
     }
     @Override

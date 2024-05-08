@@ -7,6 +7,7 @@ import es.uji.al426285.Table.TableWithLabels;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+//sin etiquetas
 
 class KmeansTest {
     Table tabla1;
@@ -17,8 +18,6 @@ class KmeansTest {
     Kmeans k1;
 
     void crear() throws Exception {
-        tabla1 = new Table("src/main/java/es/uji/al426285/Files/iris.csv");
-        tabla3 = new Table("src/main/java/es/uji/al426285/Files/iris.csv");
         tabla2 = new Table("src/main/java/es/uji/al426285/Files/miles_dollars.csv");
 
         tablaWithLabels1 = new TableWithLabels("src/main/java/es/uji/al426285/Files/iris.csv");
@@ -30,17 +29,18 @@ class KmeansTest {
     @Test
     void train() throws Exception {
         crear();
-        assertThrows(RowsLowerClustersException.class, () -> kexception.train(tabla1));
+        assertThrows(RowsLowerClustersException.class, () -> kexception.train(tabla2));
     }
     @Test
     void estimate() throws Exception {
         crear();
-        assertThrows(TableNotTrainedException.class, () -> k1.estimate(tabla3.getLista().get(0).getData()));
+        assertThrows(TableNotTrainedException.class, () -> k1.estimate(tabla2.getLista().get(0).getData()));
 
     }
 
     @Test
     void calcularRepresentantes() throws RowsLowerClustersException, Exception {
-        k1.train(tabla1);
+        crear();
+        k1.train(tabla2);
     }
 }
