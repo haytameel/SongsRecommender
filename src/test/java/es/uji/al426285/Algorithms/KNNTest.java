@@ -9,6 +9,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KNNTest {
+    String sep = System.getProperty("file.separator");
+    String iris = "src"+sep+"Files"+sep+"iris.csv";
+    String miles_dollars = "src"+sep+"Files"+sep+"miles_dollars.csv";
     TableWithLabels prueba;
     KNN knn=new KNN(new EuclideanDistance());
 
@@ -18,7 +21,7 @@ class KNNTest {
     List<Double> lista4=new ArrayList<>();//Iris-virginica (2)
     List<Double> lista5=new ArrayList<>();//lista vacia
     public void asignar_valores() throws Exception {
-        prueba= new TableWithLabels("src/main/java/es/uji/al426285/Files/iris.csv");
+        prueba= new TableWithLabels(iris);
         System.out.println("prueba:"+prueba.getLista().toString());
         lista2.add(5.1);lista2.add(3.5);lista2.add(1.4);lista2.add(0.2);
         lista3.add(6.4); lista3.add(2.9); lista3.add(4.3); lista3.add(1.3);

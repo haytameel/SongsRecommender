@@ -9,6 +9,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RowTest {
+    String sep = System.getProperty("file.separator");
+    String iris = "src"+sep+"Files"+sep+"iris.csv";
+    String miles_dollars = "src"+sep+"Files"+sep+"miles_dollars.csv";
     Table tabla1 ;
     Table tabla2 ;
 
@@ -20,11 +23,12 @@ class RowTest {
 
 
     void crear_listas() throws Exception {
+
         lista_tabla1.add(5.1);lista_tabla1.add(3.5);lista_tabla1.add(1.4);lista_tabla1.add(0.2);
         lista_tabla2.add(1211.0);lista_tabla2.add(1802.0);
 
         // tabla1=new Table("src/main/java/es/uji/al426285/Files/iris.csv");
-        tabla2 = new Table("src/main/java/es/uji/al426285/Files/miles_dollars.csv");
+        tabla2 = new Table(miles_dollars);
         linea1=new Row(lista_tabla1);
         linea2=new Row(lista_tabla2);
     }

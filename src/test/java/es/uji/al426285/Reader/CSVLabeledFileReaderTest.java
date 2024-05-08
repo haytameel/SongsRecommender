@@ -11,22 +11,26 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class CSVLabeledFileReaderTest {
+    String sep = System.getProperty("file.separator");
+    String iris = "src"+sep+"Files"+sep+"iris.csv";
+    String miles_dollars = "src"+sep+"Files"+sep+"miles_dollars.csv";
     TableWithLabels tablaWithLabels1;
     List<String> prueba_header1 = new ArrayList<>();
     Scanner fichero;
-    CSVLabeledFileReader labeled = new CSVLabeledFileReader("src/main/java/es/uji/al426285/Files/iris.csv");
+    CSVLabeledFileReader labeled = new CSVLabeledFileReader(iris);
 
 
     public void empezar() throws Exception {
-        tablaWithLabels1 = new TableWithLabels("src/main/java/es/uji/al426285/Files/iris.csv");
+        tablaWithLabels1 = new TableWithLabels(iris);
         prueba_header1.add("sepal length");
         prueba_header1.add("sepal width");
         prueba_header1.add("petal length");
         prueba_header1.add("petal width");
         prueba_header1.add("class");
 
-        fichero = new Scanner(new File("src/main/java/es/uji/al426285/Files/iris.csv"));
+        fichero = new Scanner(new File(iris));
     }
 
     @Test

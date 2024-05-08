@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TableTest {
+    String sep = System.getProperty("file.separator");
+    String iris = "src"+sep+"Files"+sep+"iris.csv";
+    String miles_dollars = "src"+sep+"Files"+sep+"miles_dollars.csv";
     void getRowAt() {
     }
 

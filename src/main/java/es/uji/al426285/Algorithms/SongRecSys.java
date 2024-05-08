@@ -6,12 +6,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /*
+
 class SongRecSys {
     private RecSys recsys;
 
     SongRecSys(String method) throws Exception {
         String sep = System.getProperty("file.separator");
-        String ruta = "C:\\Users\\hayta\\OneDrive\\Documentos\\practica1\\src\\main\\java\\es\\uji\\al426285\\Datos y código-20240411\\recsys\\songs_files";
+        String ruta = "src"+sep+"Files"+sep+"Datos_y_codigo"+sep+"recsys"+sep+"songs_files";
+
+        String sep = System.getProperty("file.separator");
+        String iris = "src"+sep+"Files"+sep+"iris.csv";
+        String miles_dollars = "src"+sep+"Files"+sep+"miles_dollars.csv";
+        src/Files/iris.csv
+        src/Files/miles_dollars.csv
 
         // File names (could be provided as arguments to the constructor to be more general)
         Map<String,String> filenames = new HashMap<>();
@@ -77,3 +84,4 @@ class SongRecSys {
     }
 }
 */
+
