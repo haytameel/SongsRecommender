@@ -19,7 +19,7 @@ class KNNTest {
     List<Double> lista5=new ArrayList<>();//lista vacia
     public void asignar_valores() throws Exception {
         prueba= new TableWithLabels("src/main/java/es/uji/al426285/Files/iris.csv");
-        System.out.println("prueba:"+prueba.getListaWithLabels().toString());
+        System.out.println("prueba:"+prueba.getLista().toString());
         lista2.add(5.1);lista2.add(3.5);lista2.add(1.4);lista2.add(0.2);
         lista3.add(6.4); lista3.add(2.9); lista3.add(4.3); lista3.add(1.3);
         lista4.add(6.2); lista4.add(2.5); lista4.add(5.0); lista4.add(1.9);

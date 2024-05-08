@@ -19,6 +19,6 @@ class TableWithLabelsTest {
     }
 
     @Test
-    void getListaWithLabels() {
+    void getLista() {
     }
 }

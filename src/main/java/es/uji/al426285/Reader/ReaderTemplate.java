@@ -4,6 +4,7 @@ import es.uji.al426285.Row.Row;
 import es.uji.al426285.Table.TableWithLabels;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ReaderTemplate {
@@ -11,7 +12,11 @@ public abstract class ReaderTemplate {
     private TableWithLabels tabla;
 
     public List<Row> getLista_rows() {
-        return tabla.getLista();
+        List<Row> dev=new ArrayList<>();
+        for (Row linea: tabla.getLista()){
+            dev.add(linea);
+        }
+        return dev;
     }
 
     public String getSource() {

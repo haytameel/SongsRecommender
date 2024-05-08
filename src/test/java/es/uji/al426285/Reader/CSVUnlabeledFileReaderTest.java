@@ -66,6 +66,7 @@ class CSVUnlabeledFileReaderTest {
         unlabeled.openSource("src/main/java/es/uji/al426285/Files/miles_dollars.csv");
         unlabeled.processHeaders("Miles,Dollars");
         unlabeled.processData(prueba_data1);
-        assertEquals(prueba_data1,unlabeled.getTabla().getLista().get(0).toString());
+        System.out.println("esto:"+unlabeled.getTabla().getLista().toString());;
+        assertEquals("["+prueba_data1+"]",unlabeled.getTabla().getLista().get(0).getData().toString());
     }
 }

@@ -1,6 +1,7 @@
 package es.uji.al426285.Reader;
 
 import es.uji.al426285.Row.Row;
+import es.uji.al426285.Row.RowWithLabel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -63,9 +64,10 @@ public class CSVUnlabeledFileReader extends ReaderTemplate {
                 throw new NumberFormatException("El fichero contiene valores erroneos");
             }
         }
-        Row linea = new Row(fila);//creamos la linea que almacena los doubles y la añadimos al la lista de rows
+        RowWithLabel linea = new RowWithLabel(fila,-1);//creamos la linea que almacena los doubles y la añadimos al la lista de rows
        // super.getTabla().addRowWithLabel((RowWithLabel) linea)
-        super.getLista_rows().add(linea);
+        super.getTabla().addRowWithLabel(linea);
+     //   System.out.println(super.getLista_rows().toString());
     }
 
     @Override

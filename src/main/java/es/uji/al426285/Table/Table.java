@@ -2,13 +2,14 @@ package es.uji.al426285.Table;
 
 import es.uji.al426285.Reader.CSVUnlabeledFileReader;
 import es.uji.al426285.Row.Row;
+import es.uji.al426285.Row.RowWithLabel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
     private List<String> header;
-    private List<Row> lista;
+    private List<RowWithLabel> lista;
 
     public Table() {
         this.header = new ArrayList<>();
@@ -39,7 +40,7 @@ public class Table {
         return true;
     }
 
-    public boolean addElements(List<Row> lista) {
+    public boolean addElements(List<RowWithLabel> lista) {
         if (lista == null) {
             return false;
         }
@@ -51,7 +52,7 @@ public class Table {
         return header;
     }
 
-    public List<Row> getLista() {
+    public List<RowWithLabel> getLista() {
         return lista;
     }
     public String headerToString() {
