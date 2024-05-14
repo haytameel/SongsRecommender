@@ -37,7 +37,7 @@ public class Kmeans implements Algorithm<Table, Integer> {
         }
         asignarGrupo();
     }
-    public List<Row> calcularRepresentantes(){
+    private List<Row> calcularRepresentantes(){
         // Paso 1: Elegir aleatoriamente un representante por cada grupo
         List<Row> repre = new ArrayList<>();
         Random semilla=new Random(seed);
@@ -48,7 +48,7 @@ public class Kmeans implements Algorithm<Table, Integer> {
         centroides= repre;
         return repre;
     }
-    public List<Row> calcularCentroide(List<List<Row>> grupos){
+    private List<Row> calcularCentroide(List<List<Row>> grupos){
         List<Row> centroides=new ArrayList<>();
         int ncomp=tabla.getRowAt(0).getData().size();
         for (int i=0; i<grupos.size(); i++){//i es cada grupo de los x grupos que tenemos
@@ -72,7 +72,7 @@ public class Kmeans implements Algorithm<Table, Integer> {
         this.centroides=centroides;
         return centroides;
     }
-    public List<List<Row>> asignarGrupo(){
+    private List<List<Row>> asignarGrupo(){
         List<List<Row>> res=new ArrayList<>();
         for (int i=0; i<numClusters; i++){
             List<Row> fila=new ArrayList<>();
@@ -85,7 +85,7 @@ public class Kmeans implements Algorithm<Table, Integer> {
         }
         return res;
     }
-    public Integer nueva_asignacion(Row fila){
+    private Integer nueva_asignacion(Row fila){
         int pertenece=0;
         double distancia= distance.calculateDistance(fila.getData(), centroides.get(0).getData());
         for (int i=1; i<numClusters; i++){
