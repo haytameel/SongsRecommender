@@ -77,6 +77,7 @@ public class Modelo {
         recSys_knn=new RecSys(knn);
         recSys_kmeans=new RecSys(kmeans);
         recSys_knn.train(tableWithLabels);
+        System.out.println("Aquiqjdndjksdnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
         recSys_kmeans.train(tabla);
     }
 

@@ -5,6 +5,7 @@ import es.uji.al426285.Row.RowWithLabel;
 import es.uji.al426285.Table.TableWithLabels;
 
 import java.util.List;
+import java.util.SortedMap;
 
 public class KNN implements Algorithm<TableWithLabels,Integer> {
 
@@ -16,6 +17,7 @@ public class KNN implements Algorithm<TableWithLabels,Integer> {
     }
     public void train(TableWithLabels tabla) {
         this.tabla = tabla;
+        System.out.println("Train del knn");
     }
 
     public Integer estimate(List<Double> data){

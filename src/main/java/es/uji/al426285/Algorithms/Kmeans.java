@@ -33,18 +33,20 @@ public class Kmeans implements Algorithm<Table, Integer> {
     }
 
     public void train(Table datos) throws RowsLowerClustersException {
+        System.out.println("Train kmeans");
         this.tabla=datos;
         if (numClusters> tabla.getLista().size()){
             throw new RowsLowerClustersException();
         }
-        System.out.println("llega");
         calcularRepresentantes();
-        System.out.println("Representantes: "+centroides);
+        System.out.println("Representantes: "+centroides.toString());
+
         for (int i=0; i<numIterators; i++){
             List<List<Row>> grupos=asignarGrupo();
+            System.out.println("Grupos: "+grupos);
             calcularCentroide(grupos);
+            System.out.println("Centroides: "+centroides.toString());
         }
-        System.out.println("Centroides: "+centroides);
         asignarGrupo();
     }
     private List<Row> calcularRepresentantes(){
@@ -91,21 +93,16 @@ public class Kmeans implements Algorithm<Table, Integer> {
 
         for (Row fila: tabla.getLista()) {
             int pertenece = nueva_asignacion(fila);
-            System.out.println(pertenece);
             res.get(pertenece).add(fila);
         }
         return res;
     }
     private Integer nueva_asignacion(Row fila){
         int pertenece=0;
-        System.out.println("Fila: "+fila.toString());
         double distancia= distance.calculateDistance(fila.getData(), centroides.get(0).getData());
 
         for (int i=1; i<numClusters; i++){
             double posible= distance.calculateDistance(fila.getData(), centroides.get(i).getData());
-            System.out.println("Centroides_data: "+centroides.get(i).getData());
-
-            System.out.println("ef: "+distancia+" "+posible);
             if (distancia>posible){
                 pertenece=i;
                 distancia=posible;
