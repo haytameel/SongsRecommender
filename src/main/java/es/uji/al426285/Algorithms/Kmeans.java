@@ -4,18 +4,25 @@ import es.uji.al426285.Exceptions.RowsLowerClustersException;
 import es.uji.al426285.Exceptions.TableNotTrainedException;
 import es.uji.al426285.Row.Row;
 import es.uji.al426285.Table.Table;
+import es.uji.al426285.Table.TableWithLabels;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Kmeans implements Algorithm<Table, Integer> {
+
+
     Table tabla;
     int numClusters;
     int numIterators;
     long seed;
     private List<Row> centroides;
     Distancia distance;
+
+    public TableWithLabels getTabla() {
+        return null;
+    }
 
     public Kmeans(int numClusters, int numIterators, long seed, Distancia distance){
         this.numClusters=numClusters;

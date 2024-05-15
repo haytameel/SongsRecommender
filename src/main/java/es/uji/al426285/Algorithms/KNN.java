@@ -7,6 +7,8 @@ import es.uji.al426285.Table.TableWithLabels;
 import java.util.List;
 
 public class KNN implements Algorithm<TableWithLabels,Integer> {
+
+
     TableWithLabels tabla;
     Distancia distance;
     public KNN(Distancia distance){
@@ -22,7 +24,7 @@ public class KNN implements Algorithm<TableWithLabels,Integer> {
         Integer candidato=null;
 
         if (aux==null || data==null) throw new NullPointerException("Tabla/Lista vacia");
-        if (data.size()==0) return candidato;//si la lista esta vacia devolvemos null
+        if (data.isEmpty()) return candidato;//si la lista esta vacia devolvemos null
         for (RowWithLabel fila_aux: aux.getLista()){//recorremos la lista de filas de la tabla aux
             //calculamos las distancia
             //entre las listas de la tabla y la lista que tenemos como parametros

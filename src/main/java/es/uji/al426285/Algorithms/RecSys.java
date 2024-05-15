@@ -13,7 +13,12 @@ import java.util.Map;
 
 public class RecSys implements Algorithm<Table, Integer> {
     private Algorithm<Table, Integer> algorithm;
-    Map<String, Integer> mapa;
+
+    private Map<String, Integer> mapa;
+
+    public Map<String, Integer> getMapa() {
+        return mapa;
+    }
 
     public RecSys(Algorithm algorithm) {
         this.algorithm = algorithm;
@@ -44,7 +49,7 @@ public class RecSys implements Algorithm<Table, Integer> {
     public List<String> recommend(String nameLikedItem, int numRecommendations) throws NameNotFoundException {
         List<String> recomendaciones = new ArrayList<>(numRecommendations);
         Integer grupo = -1;
-        if (mapa.size() == 0) {
+        if (mapa.isEmpty()) {
             throw new FunctionNotExecutedException("run()");
         }
         try {

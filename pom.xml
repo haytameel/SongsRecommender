@@ -49,7 +49,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <executable>${java.home}/bin/java</executable>
-                            <mainClass>es.uji.al426285.View.App</mainClass>
+                            <mainClass>es.uji.al426285.View.Vista</mainClass>
                         </configuration>
                     </execution>
                 </executions>
