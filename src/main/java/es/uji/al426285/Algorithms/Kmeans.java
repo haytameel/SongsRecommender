@@ -37,8 +37,9 @@ public class Kmeans implements Algorithm<Table, Integer> {
         if (numClusters> tabla.getLista().size()){
             throw new RowsLowerClustersException();
         }
+        System.out.println("llega");
         calcularRepresentantes();
-        System.out.println(centroides);
+        System.out.println("Representantes: "+centroides);
         for (int i=0; i<numIterators; i++){
             List<List<Row>> grupos=asignarGrupo();
             calcularCentroide(grupos);
@@ -102,7 +103,7 @@ public class Kmeans implements Algorithm<Table, Integer> {
 
         for (int i=1; i<numClusters; i++){
             double posible= distance.calculateDistance(fila.getData(), centroides.get(i).getData());
-            System.out.println(centroides.get(i).getData());
+            System.out.println("Centroides_data: "+centroides.get(i).getData());
 
             System.out.println("ef: "+distancia+" "+posible);
             if (distancia>posible){
