@@ -47,13 +47,14 @@ public class RecSys implements Algorithm<Table, Integer> {
     ;
 
     public List<String> recommend(String nameLikedItem, int numRecommendations) throws NameNotFoundException {
-        List<String> recomendaciones = new ArrayList<>(numRecommendations);
+        List<String> recomendaciones = new ArrayList<>();
         Integer grupo = -1;
         if (mapa.isEmpty()) {
             throw new FunctionNotExecutedException("run()");
         }
         try {
             grupo = mapa.get(nameLikedItem);
+            System.out.println("fa: "+mapa.entrySet());
         } catch (Exception e) {
             throw new NameNotFoundException("Nombre no encontrado en el Algoritmo");
         }

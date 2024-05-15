@@ -14,7 +14,8 @@ public class Modelo {
     private Vista vista;
 
     public Modelo() throws Exception {
-        tabla=new TableWithLabels(songs_test);
+        tablawhitlables=new TableWithLabels(songs_test);
+        tabla=new Table(songs_test_withoutnames);
         lista_generos=new LinkedList<>();
         makeLista_generos();
     }
@@ -38,7 +39,8 @@ public class Modelo {
 
     Algorithm<TableWithLabels, Integer> knn;
     Algorithm<Table, Integer> kmeans;
-    TableWithLabels tabla;
+    TableWithLabels tablawhitlables;
+    Table tabla;
 
     public List<String> getLista_nombres_canciones() {
         return lista_nombres_canciones;
@@ -53,7 +55,7 @@ public class Modelo {
     List<String> lista_generos;
 
     private void makeLista_generos(){
-        Set<String> col=new TreeSet<>(tabla.getLabelsToIndex().keySet());
+        Set<String> col=new TreeSet<>(tablawhitlables.getLabelsToIndex().keySet());
         for (String genero: col){
             lista_generos.add(genero);
         }
@@ -69,28 +71,33 @@ public class Modelo {
 
     public void create(Distancia distancia) throws Exception {
         TableWithLabels tableWithLabels=new TableWithLabels(songs_train);
+        Table tabla=new Table(songs_train_withoutnames);
         knn = new KNN(distancia);
-        kmeans = new Kmeans(tableWithLabels.getLabelsToIndex().size(), 20,1,distancia);
+        kmeans = new Kmeans(tableWithLabels.getLabelsToIndex().size(), 2,1,distancia);
         recSys_knn=new RecSys(knn);
         recSys_kmeans=new RecSys(kmeans);
         recSys_knn.train(tableWithLabels);
-        recSys_kmeans.train(tableWithLabels);
+        recSys_kmeans.train(tabla);
     }
 
 
 
     public void run() throws Exception {
 
-        recSys_knn.run(tabla,lista_nombres_canciones);
+        recSys_knn.run(tablawhitlables,lista_nombres_canciones);
         recSys_kmeans.run(tabla, lista_nombres_canciones);
     }
     public void recommend_songs_features(String cancion, int recomendaciones) throws NameNotFoundException {
+        vista.getLista_recomendadas().getItems().clear();
 
         vista.getLista_recomendadas().getItems().addAll(recSys_knn.recommend(cancion, recomendaciones));
     }
 
     public void recommend_guessed_genre(String genero, int recomendaciones) throws NameNotFoundException {
-        vista.getLista_recomendadas().getItems().addAll(recSys_kmeans.recommend(genero, recomendaciones));
+        vista.getLista_recomendadas().getItems().clear();
+        List<String> sa=recSys_kmeans.recommend(genero, recomendaciones);
+        vista.getLista_recomendadas().getItems().addAll(sa);
+        System.out.println(sa.toString());
     }
 
     public void añadir_canciones() {

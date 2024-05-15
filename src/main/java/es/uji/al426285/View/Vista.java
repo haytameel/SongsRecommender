@@ -53,10 +53,10 @@ public class Vista extends Application {
     //LISTA QUE DEVOLVERÁ LAS CANCIONES RECOMENDADAS
     private ListView<String> lista_recomendadas = new ListView<>();
     //ETIQUETA DE LA RECOMENDACIÓN
-    Label etiqueta_recomendacion;
+    Label etiqueta_recomendacion=new Label();
     //BOTON CERRAR RECOMENDACIONES
     private Button boton_cerrar_recomendaciones = new Button("Close");
-
+    Stage segundaVentana = new Stage();
 
     //Caja para seleccionar el numero de recomendaciones a mostrar
     private Spinner<Integer> etiqueta_flechitas = new Spinner<>();
@@ -138,6 +138,7 @@ public class Vista extends Application {
         Button boton= (Button)vbox.getChildren().get(8);
         boton.setOnAction(e-> {
             try {
+                segundaVentana.close();
                 ventana2();
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
@@ -148,7 +149,7 @@ public class Vista extends Application {
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-            controlador.modificar_etiqueta_recomendacion();
+            aplicarEstiloBoton(boton_cerrar_recomendaciones);
 
         });
 
@@ -205,21 +206,17 @@ public class Vista extends Application {
         etiqueta_flechitas.setValueFactory(valueFactory);
         FlowPane flow1 = new FlowPane(etiqueta_num_recomendaciones, etiqueta_flechitas);
         flow1.setHgap(10);
-        System.out.println("hola1");
-        HBox vbox2 = new HBox(flow1,
+        VBox vbox2 = new VBox(flow1,
                 etiqueta_recomendacion, lista_recomendadas, boton_cerrar_recomendaciones
 
         );
-        System.out.println("hola");
 
 
 
-
-        aplicarEstiloBoton(boton_cerrar_recomendaciones);
         vbox2.setSpacing(6);
         vbox2.setPadding(new Insets(10, 10, 10, 10));
 
-        Stage segundaVentana = new Stage();
+
         Scene scene = new Scene(new StackPane(vbox2), 400, 300);
         segundaVentana.setScene(scene);
         segundaVentana.setTitle("Recommended titles");
@@ -228,14 +225,19 @@ public class Vista extends Application {
         InputStream entrada = new FileInputStream("src/main/java/es/uji/al426285/View/imagen.png");
         Image imagen = new Image(entrada);
         segundaVentana.getIcons().add(imagen);
-
         segundaVentana.show();
         FlowPane pane=(FlowPane) vbox2.getChildren().get(0);
         Spinner<Integer> spinner=(Spinner<Integer>) pane.getChildren().get(1);
         spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("messi");
+            try {
+                controlador.recomendar();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             // Aquí puedes realizar las acciones que desees cuando cambie el valor del Spinner
         });
+        controlador.modificar_etiqueta_recomendacion();
+
         Button boton_cerrar=(Button) vbox2.getChildren().get(3);
         boton_cerrar.setOnAction(e->{
                 segundaVentana.close();
