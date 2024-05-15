@@ -3,6 +3,7 @@ package es.uji.al426285.Controlador;
 
 import es.uji.al426285.Algorithms.EuclideanDistance;
 import es.uji.al426285.Algorithms.ManhattanDistance;
+import es.uji.al426285.Exceptions.NameNotFoundException;
 import es.uji.al426285.Modelo.Modelo;
 import es.uji.al426285.View.Vista;
 
@@ -28,15 +29,28 @@ public class Controlador {
     public void añadir_generos() {
         modelo.añadir_generos();
     }
-    public void euclidean() throws Exception {
-        modelo.create(new EuclideanDistance());
+
+
+    //USAR ESTO: etiqueta_recomendacion
+    public void entrenar() throws Exception {
+        if (vista.getEuclidean().isSelected()){
+            modelo.create(new EuclideanDistance());
+        }
+        else{
+            modelo.create(new ManhattanDistance());
+        }
+        modelo.run();
     }
-    public void manhattan() throws Exception {
-        modelo.create(new ManhattanDistance());
+    public void recomendar() throws Exception {
+        if (vista.getSong_features().isSelected()){
+            modelo.recommend_songs_features(vista.lista_canciones.getSelectionModel().getSelectedItem(),vista.getEtiqueta_flechitas().getValue());
+        } else if (vista.getGuessed_genre().isSelected()) {
+            modelo.recommend_guessed_genre(vista.lista_canciones.getSelectionModel().getSelectedItem(),vista.getEtiqueta_flechitas().getValue());
+        }
     }
 
-    public void entrenar() {
-
+    public void modificar_etiqueta_recomendacion(){
+        vista.getEtiqueta_recomendacion().setText("If you liked \""+vista.lista_canciones.getSelectionModel().getSelectedItem()+"\"you might like the following songs");
     }
 
 

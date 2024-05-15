@@ -1,6 +1,7 @@
 package es.uji.al426285.View;
 
 import es.uji.al426285.Controlador.Controlador;
+import es.uji.al426285.Exceptions.NameNotFoundException;
 import es.uji.al426285.Modelo.Modelo;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -9,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -18,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -26,10 +29,11 @@ import java.io.InputStream;
 public class Vista extends Application {
     private Modelo modelo;
     private Controlador controlador;
+
     public Vista() throws Exception {
-        modelo=new Modelo();
+        modelo = new Modelo();
         modelo.setVista(this);
-        controlador=new Controlador();
+        controlador = new Controlador();
         controlador.setVista(this);
         controlador.setModelo(modelo);
     }
@@ -49,54 +53,104 @@ public class Vista extends Application {
     //LISTA QUE DEVOLVERÁ LAS CANCIONES RECOMENDADAS
     private ListView<String> lista_recomendadas = new ListView<>();
     //ETIQUETA DE LA RECOMENDACIÓN
-    Label etiqueta_recomendacion = new Label();
+    Label etiqueta_recomendacion;
     //BOTON CERRAR RECOMENDACIONES
     private Button boton_cerrar_recomendaciones = new Button("Close");
 
 
+    //Caja para seleccionar el numero de recomendaciones a mostrar
+    private Spinner<Integer> etiqueta_flechitas = new Spinner<>();
+
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-
+        AtomicBoolean boolean_lista_seleccionada = new AtomicBoolean(false);
         //icono de la ventana principal
         InputStream entrada = new FileInputStream("src/main/java/es/uji/al426285/View/imagen.png");
         Image imagen = new Image(entrada);
         ImageView imagen_vista = new ImageView();
         stage.getIcons().add(imagen);
+        stage.setX(50);
+        stage.setY(70);
 
         //nombre de ventana
-        stage.setTitle("Recomendacion de canciones");
+        stage.setTitle("Songs recommendation");
 
         //Caja donde irán, tipo de recomendacion, tipo de distancia y titulos de canciones
         VBox vbox = vista();
 
-        RadioButton radio_features= (RadioButton) vbox.getChildren().get(1);
-        RadioButton radio_genre= (RadioButton) vbox.getChildren().get(2);
-        RadioButton radio_euclidean= (RadioButton) vbox.getChildren().get(4);
-        RadioButton radio_manhattan= (RadioButton) vbox.getChildren().get(5);
-
-        radio_features.setOnAction(e-> {if (radio_features.isSelected()) controlador.añadir_canciones();});
-        radio_genre.setOnAction(e-> {if (radio_genre.isSelected()) controlador.añadir_generos();});
-
-       //esta mal, NO CAMBIAR HASTA QUE NO SE HAYA PULSADO EL BOTON RECOMENDAR,
-        manhattan.setOnAction(e-> {if (manhattan.isSelected()) {
-            try {
-                controlador.manhattan();
-            } catch (Exception ex) {
-                throw new RuntimeException("Error al leer el fichero");
+        RadioButton radio_features = (RadioButton) vbox.getChildren().get(1);
+        RadioButton radio_genre = (RadioButton) vbox.getChildren().get(2);
+        RadioButton radio_euclidean = (RadioButton) vbox.getChildren().get(4);
+        RadioButton radio_manhattan = (RadioButton) vbox.getChildren().get(5);
+        boton_recomendar.setDisable(true);
+        radio_features.setOnAction(e -> {
+            if (radio_features.isSelected()) {
+                controlador.añadir_canciones();
+                if (radio_euclidean.isSelected() || radio_manhattan.isSelected() && boolean_lista_seleccionada.get()) {
+                    boton_recomendar.setDisable(false);
+                } else {
+                    boton_recomendar.setDisable(true);
+                }
             }
-        }
+            lista_canciones.setTooltip(new Tooltip("Double click for receomendations on this song"));
         });
-        manhattan.setOnAction(e-> {if (euclidean.isSelected()) {
-            try {
-                controlador.euclidean();
-            } catch (Exception ex) {
-                throw new RuntimeException("Error al leer el fichero");
+        radio_genre.setOnAction(e -> {
+            if (radio_genre.isSelected()) {
+                controlador.añadir_generos();
+                if (radio_euclidean.isSelected() || radio_manhattan.isSelected() && boolean_lista_seleccionada.get()) {
+                    boton_recomendar.setDisable(false);
+                } else {
+                    boton_recomendar.setDisable(true);
+                }
             }
-        }
+            lista_canciones.setTooltip(new Tooltip("Double click for receomendations on this genre"));
+        });
+        radio_manhattan.setOnAction(e -> {
+            if (radio_manhattan.isSelected()) {
+                if ((radio_features.isSelected() || radio_genre.isSelected()) && boolean_lista_seleccionada.get()) {
+                    boton_recomendar.setDisable(false);
+                } else {
+                    boton_recomendar.setDisable(true);
+                }
+            }
+        });
+        radio_euclidean.setOnAction(e -> {
+            if (radio_euclidean.isSelected()) {
+                if ((radio_features.isSelected() || radio_genre.isSelected()) && boolean_lista_seleccionada.get()) {
+                    boton_recomendar.setDisable(false);
+                } else {
+                    boton_recomendar.setDisable(true);
+                }
+            }
         });
 
+        lista_canciones.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            //  System.out.println("Elemento seleccionado: " + lista_canciones.getItems().get(newValue.intValue()));
+            System.out.println("aqui: "+ lista_canciones.getSelectionModel().getSelectedItem());
+            boolean_lista_seleccionada.set(true);
+            if ((radio_manhattan.isSelected() || radio_euclidean.isSelected()) && (radio_features.isSelected() || radio_genre.isSelected())) {
+                boton_recomendar.setDisable(false);
+            } else
+            {
+                boton_recomendar.setDisable(true);}
+        });
 
+        Button boton= (Button)vbox.getChildren().get(8);
+        boton.setOnAction(e-> {
+            try {
+                ventana2();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+            try {
+                controlador.entrenar();
+                controlador.recomendar();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            controlador.modificar_etiqueta_recomendacion();
 
+        });
 
 
         //Insertamos la caja vertical en la escena
@@ -105,7 +159,6 @@ public class Vista extends Application {
         stage.show();
 
 
-      ventana2();
     }
 
 
@@ -145,27 +198,49 @@ public class Vista extends Application {
         return vbox;
     }
 
-    private void ventana2() {
+    private void ventana2() throws FileNotFoundException {
+
         Label etiqueta_num_recomendaciones = new Label("Number of recomendations");
-        Spinner<Integer> etiqueta_flechitas = new Spinner<>();
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
         etiqueta_flechitas.setValueFactory(valueFactory);
         FlowPane flow1 = new FlowPane(etiqueta_num_recomendaciones, etiqueta_flechitas);
         flow1.setHgap(10);
-
-        VBox vbox = new VBox(flow1,
+        System.out.println("hola1");
+        HBox vbox2 = new HBox(flow1,
                 etiqueta_recomendacion, lista_recomendadas, boton_cerrar_recomendaciones
 
         );
+        System.out.println("hola");
+
+
+
+
         aplicarEstiloBoton(boton_cerrar_recomendaciones);
-        vbox.setSpacing(6);
-        vbox.setPadding(new Insets(10, 10, 10, 10));
+        vbox2.setSpacing(6);
+        vbox2.setPadding(new Insets(10, 10, 10, 10));
 
         Stage segundaVentana = new Stage();
-        Scene scene = new Scene(new StackPane(vbox), 400, 300);
+        Scene scene = new Scene(new StackPane(vbox2), 400, 300);
         segundaVentana.setScene(scene);
         segundaVentana.setTitle("Recommended titles");
+        segundaVentana.setX(800);
+        segundaVentana.setY(150);
+        InputStream entrada = new FileInputStream("src/main/java/es/uji/al426285/View/imagen.png");
+        Image imagen = new Image(entrada);
+        segundaVentana.getIcons().add(imagen);
+
         segundaVentana.show();
+        FlowPane pane=(FlowPane) vbox2.getChildren().get(0);
+        Spinner<Integer> spinner=(Spinner<Integer>) pane.getChildren().get(1);
+        spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("messi");
+            // Aquí puedes realizar las acciones que desees cuando cambie el valor del Spinner
+        });
+        Button boton_cerrar=(Button) vbox2.getChildren().get(3);
+        boton_cerrar.setOnAction(e->{
+                segundaVentana.close();
+        });
+
     }
 
 
@@ -232,6 +307,10 @@ public class Vista extends Application {
     public Button getBoton_cerrar_recomendaciones() {
         return boton_cerrar_recomendaciones;
     }
+    public Spinner<Integer> getEtiqueta_flechitas() {
+        return etiqueta_flechitas;
+    }
+
 
 
     public static void main(String[] args) {

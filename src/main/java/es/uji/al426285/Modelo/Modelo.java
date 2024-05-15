@@ -84,13 +84,13 @@ public class Modelo {
         recSys_knn.run(tabla,lista_nombres_canciones);
         recSys_kmeans.run(tabla, lista_nombres_canciones);
     }
-    public List<String> recommend_songs_features(String cancion, int recomendaciones) throws NameNotFoundException {
+    public void recommend_songs_features(String cancion, int recomendaciones) throws NameNotFoundException {
 
-        return recSys_knn.recommend(cancion, recomendaciones);
+        vista.getLista_recomendadas().getItems().addAll(recSys_knn.recommend(cancion, recomendaciones));
     }
 
-    public List<String> recommend_guessed_genre(String genero, int recomendaciones) throws NameNotFoundException {
-            return recSys_kmeans.recommend(genero, recomendaciones);
+    public void recommend_guessed_genre(String genero, int recomendaciones) throws NameNotFoundException {
+        vista.getLista_recomendadas().getItems().addAll(recSys_kmeans.recommend(genero, recomendaciones));
     }
 
     public void añadir_canciones() {
