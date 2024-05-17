@@ -46,11 +46,8 @@ public class Controlador {
         if(vista.getEtiqueta_flechitas().getValue()!=0) {
             if (vista.getSong_features().isSelected()) {
                 modelo.recommend_songs_features(vista.lista_canciones.getSelectionModel().getSelectedItem(), vista.getEtiqueta_flechitas().getValue());
-                System.out.println("se hace");
             } else if (vista.getGuessed_genre().isSelected()) {
                 modelo.recommend_guessed_genre(vista.lista_canciones.getSelectionModel().getSelectedItem(), vista.getEtiqueta_flechitas().getValue());
-                System.out.println("se hace 2");
-                System.out.println(vista.lista_canciones.getSelectionModel().getSelectedItem() + "    " + vista.getEtiqueta_flechitas().getValue());
             }
         }
     }
@@ -58,6 +55,10 @@ public class Controlador {
     public void modificar_etiqueta_recomendacion(){
         vista.getEtiqueta_recomendacion().setText("If you liked \""+vista.lista_canciones.getSelectionModel().getSelectedItem()+"\"you might like the following songs");
     }
+    public void getCanciones(){
+        modelo.make_lista_acotada(vista.lista_canciones.getSelectionModel().getSelectedItem());
+    }
+
 
 
 

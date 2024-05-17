@@ -35,19 +35,15 @@ public class Kmeans implements Algorithm<Table, Integer> {
     }
 
     public void train(Table datos) throws RowsLowerClustersException {
-        System.out.println("Train kmeans");
         this.tabla=datos;
         if (numClusters> tabla.getLista().size()){
             throw new RowsLowerClustersException();
         }
         calcularRepresentantes();
-        System.out.println("Representantes: "+centroides.toString());
 
         for (int i=0; i<numIterators; i++){
             List<List<Row>> grupos=asignarGrupo();
-            System.out.println("Grupos: "+grupos);
             calcularCentroide(grupos);
-            System.out.println("Centroides: "+centroides.toString());
         }
         asignarGrupo();
     }
@@ -66,7 +62,6 @@ public class Kmeans implements Algorithm<Table, Integer> {
     private List<Row> calcularCentroide(List<List<Row>> grupos){
         List<Row> centroides=new ArrayList<>();
         int ncomp=tabla.getRowAt(0).getData().size();
-        System.out.println("OOOOOOOO: "+ncomp);
         for (int i=0; i<grupos.size(); i++){//i es cada grupo de los x grupos que tenemos
             List<Double> sumatorio=new ArrayList<>(ncomp);
             for (int k=0; k<ncomp; k++){
@@ -79,10 +74,8 @@ public class Kmeans implements Algorithm<Table, Integer> {
                 }
             }
             int m=grupos.get(i).size();//numero de rows en cada grupo
-            System.out.println("mmmm "+m);
             List<Double> centroide=new ArrayList<Double>(ncomp);
             for (int k=0; k<ncomp; k++){//hacemos la division por m y lo añadimos
-                System.out.println("/////"+sumatorio.get(k));
                 double valor=sumatorio.get(k)/m;
                 double roundedNumber = Math.round(valor * 100) / 100.0;
                 centroide.add(k,roundedNumber);
@@ -103,7 +96,6 @@ public class Kmeans implements Algorithm<Table, Integer> {
             int pertenece = nueva_asignacion(fila);
             res.get(pertenece).add(fila);
         }
-        System.out.println("eoooooo: "+res);
         return res;
     }
     private Integer nueva_asignacion(Row fila) {

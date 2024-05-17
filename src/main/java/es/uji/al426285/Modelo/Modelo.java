@@ -2,6 +2,7 @@ package es.uji.al426285.Modelo;
 
 import es.uji.al426285.Algorithms.*;
 import es.uji.al426285.Exceptions.NameNotFoundException;
+import es.uji.al426285.Row.RowWithLabel;
 import es.uji.al426285.Table.Table;
 import es.uji.al426285.Table.TableWithLabels;
 import es.uji.al426285.View.Vista;
@@ -77,7 +78,6 @@ public class Modelo {
         recSys_knn=new RecSys(knn);
         recSys_kmeans=new RecSys(kmeans);
         recSys_knn.train(tableWithLabels);
-        System.out.println("Aquiqjdndjksdnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
         recSys_kmeans.train(tabla);
     }
 
@@ -95,12 +95,11 @@ public class Modelo {
         vista.getLista_recomendadas().getItems().addAll(sa);
     }
 
-    public void recommend_guessed_genre(String genero, int recomendaciones) throws NameNotFoundException {
+    public void recommend_guessed_genre(String cancion, int recomendaciones) throws NameNotFoundException {
         String e=vista.lista_canciones.getSelectionModel().getSelectedItem();
-        List<String> sa=recSys_kmeans.recommend(genero, recomendaciones);
+        List<String> sa=recSys_knn.recommend(cancion, recomendaciones);
         sa.remove(e);
         vista.getLista_recomendadas().getItems().addAll(sa);
-        System.out.println(sa.toString());
     }
 
     public void añadir_canciones() {
@@ -116,5 +115,17 @@ public class Modelo {
                 vista.getLista_canciones().getItems().add(lista_generos.get(i));
         }
     }
+    public void make_lista_acotada(String genero){
+        vista.getLista_canciones().getItems().clear();
+        List<RowWithLabel> lista=tablawhitlables.getLista();
+        int grupo=tablawhitlables.getLabelsToIndex().get(genero);
+        for (String cancion:recSys_knn.getMapa().keySet()){
+            if (recSys_knn.getMapa().get(cancion)==grupo){
+                vista.getLista_canciones().getItems().add(cancion);
+            }
+        }
+    }
+
+
 
 }

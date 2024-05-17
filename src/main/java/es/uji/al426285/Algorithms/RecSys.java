@@ -54,7 +54,6 @@ public class RecSys implements Algorithm<Table, Integer> {
         }
         try {
             grupo = mapa.get(nameLikedItem);
-            System.out.println("fa: "+mapa.entrySet());
         } catch (Exception e) {
             throw new NameNotFoundException("Nombre no encontrado en el Algoritmo");
         }

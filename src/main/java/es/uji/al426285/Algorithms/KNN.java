@@ -17,7 +17,7 @@ public class KNN implements Algorithm<TableWithLabels,Integer> {
     }
     public void train(TableWithLabels tabla) {
         this.tabla = tabla;
-        System.out.println("Train del knn");
+
     }
 
     public Integer estimate(List<Double> data){
