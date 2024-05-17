@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.Math.round;
+
 public class Kmeans implements Algorithm<Table, Integer> {
 
 
@@ -56,6 +58,7 @@ public class Kmeans implements Algorithm<Table, Integer> {
         for (int i=0; i<numClusters; i++) {
             int num=Math.abs(semilla.nextInt()%tabla.getLista().size());
             repre.add(tabla.getRowAt(num));
+      //      System.out.println("representanteeee: "+tabla.getRowAt(num));
         }
         centroides= repre;
         return repre;
@@ -63,6 +66,7 @@ public class Kmeans implements Algorithm<Table, Integer> {
     private List<Row> calcularCentroide(List<List<Row>> grupos){
         List<Row> centroides=new ArrayList<>();
         int ncomp=tabla.getRowAt(0).getData().size();
+        System.out.println("OOOOOOOO: "+ncomp);
         for (int i=0; i<grupos.size(); i++){//i es cada grupo de los x grupos que tenemos
             List<Double> sumatorio=new ArrayList<>(ncomp);
             for (int k=0; k<ncomp; k++){
@@ -70,14 +74,18 @@ public class Kmeans implements Algorithm<Table, Integer> {
             }
             for (int j=0; j<grupos.get(i).size(); j++) {//j es cada row de ese grupo
                 for (int k = 0; k < ncomp; k++) {//k son los columnas/componentes de cada row
-                    sumatorio.add(k, sumatorio.get(k) + grupos.get(i).get(j).getData().get(k));
+                    sumatorio.set(k, sumatorio.get(k) + grupos.get(i).get(j).getData().get(k));
                     //añadimos en la columna de cada grupo el valor de la suma de todos los rows
                 }
             }
             int m=grupos.get(i).size();//numero de rows en cada grupo
+            System.out.println("mmmm "+m);
             List<Double> centroide=new ArrayList<Double>(ncomp);
             for (int k=0; k<ncomp; k++){//hacemos la division por m y lo añadimos
-                centroide.add(k,sumatorio.get(k)/m);
+                System.out.println("/////"+sumatorio.get(k));
+                double valor=sumatorio.get(k)/m;
+                double roundedNumber = Math.round(valor * 100) / 100.0;
+                centroide.add(k,roundedNumber);
             }
             centroides.add(new Row(centroide)) ;
         }
@@ -95,6 +103,7 @@ public class Kmeans implements Algorithm<Table, Integer> {
             int pertenece = nueva_asignacion(fila);
             res.get(pertenece).add(fila);
         }
+        System.out.println("eoooooo: "+res);
         return res;
     }
     private Integer nueva_asignacion(Row fila) {

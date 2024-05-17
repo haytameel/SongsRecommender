@@ -20,7 +20,7 @@ class KmeansTest {
     void testEntrenamientoExitoso() {
         // Arrange
         int numClusters = 3;
-        int numIterators = 10;
+        int numIterators = 1;
         long seed = 123456789;
         List<RowWithLabel> data = Arrays.asList(
                 new RowWithLabel(Arrays.asList(1.0, 2.0), 0),
@@ -47,7 +47,7 @@ class KmeansTest {
     void testExcepcionNumeroClustersInsuficiente() {
         // Arrange
         int numClusters = 10; // Número mayor que el número de filas en los datos
-        int numIterators = 10;
+        int numIterators = 1;
         long seed = 123456789;
         List<RowWithLabel> data = Arrays.asList(
                 new RowWithLabel(Arrays.asList(1.0, 2.0), 0),
@@ -67,7 +67,7 @@ class KmeansTest {
     void testAgrupamiento() throws TableNotTrainedException, RowsLowerClustersException {
         // Arrange
         int numClusters = 3;
-        int numIterators = 10;
+        int numIterators = 1;
         long seed = 123456789;
         List<RowWithLabel> data = Arrays.asList(
                 new RowWithLabel(Arrays.asList(1.0, 2.0), 0),
@@ -85,12 +85,30 @@ class KmeansTest {
         Kmeans kmeans = new Kmeans(numClusters, numIterators, seed, new EuclideanDistance());
         kmeans.train(tabla);
 
-        // Act
-        List<Double> testRow = Arrays.asList(0.5, 1.5); // Esperamos que se agrupe en el mismo clúster que (1.0, 2.0) y (1.5, 1.8)
-        Integer cluster = kmeans.estimate(testRow);
+        //los centroides calculados: {{9,2'3},{8'5,9'5},{2'125,3'1}}
+
+        // se aproxima al segundo, deberia devolver 2
+        ArrayList<Double> prueba1=new ArrayList<>();
+        prueba1.add(0.5);prueba1.add(1.5);
+        Integer cluster1 = kmeans.estimate(prueba1);
+
+        // se aproxima al primero, deberia devolver 1
+        ArrayList<Double> prueba2=new ArrayList<>();
+        prueba2.add(20.0);prueba2.add(19.5);
+        Integer cluster2 = kmeans.estimate(prueba2);
+
+        // se aproxima al primero, deberia devolver 0
+        ArrayList<Double> prueba3=new ArrayList<>();
+        prueba3.add(8.2);prueba3.add(2.5);
+        Integer cluster3 = kmeans.estimate(prueba3);
+
 
         // Assert
-        assertEquals(0, cluster); // El índice de los clústeres empieza en 0
+        assertEquals(2, cluster1); // El índice de los clústeres empieza en 0
+        assertEquals(1, cluster2); // El índice de los clústeres empieza en 0
+        assertEquals(0, cluster3); // El índice de los clústeres empieza en 0
+
+
     }
 }
 
