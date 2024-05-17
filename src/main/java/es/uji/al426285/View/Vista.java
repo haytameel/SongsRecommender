@@ -202,7 +202,7 @@ public class Vista extends Application {
     private void ventana2() throws FileNotFoundException {
 
         Label etiqueta_num_recomendaciones = new Label("Number of recomendations");
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0);
         etiqueta_flechitas.setValueFactory(valueFactory);
         FlowPane flow1 = new FlowPane(etiqueta_num_recomendaciones, etiqueta_flechitas);
         flow1.setHgap(10);

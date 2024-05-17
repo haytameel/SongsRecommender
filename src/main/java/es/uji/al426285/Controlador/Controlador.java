@@ -42,13 +42,16 @@ public class Controlador {
         modelo.run();
     }
     public void recomendar() throws Exception {
-        if (vista.getSong_features().isSelected()){
-            modelo.recommend_songs_features(vista.lista_canciones.getSelectionModel().getSelectedItem(),vista.getEtiqueta_flechitas().getValue());
-            System.out.println("se hace");
-        } else if (vista.getGuessed_genre().isSelected()) {
-            modelo.recommend_guessed_genre(vista.lista_canciones.getSelectionModel().getSelectedItem(),vista.getEtiqueta_flechitas().getValue());
-            System.out.println("se hace 2");
-            System.out.println(vista.lista_canciones.getSelectionModel().getSelectedItem()+"    "+vista.getEtiqueta_flechitas().getValue());
+        vista.getLista_recomendadas().getItems().clear();
+        if(vista.getEtiqueta_flechitas().getValue()!=0) {
+            if (vista.getSong_features().isSelected()) {
+                modelo.recommend_songs_features(vista.lista_canciones.getSelectionModel().getSelectedItem(), vista.getEtiqueta_flechitas().getValue());
+                System.out.println("se hace");
+            } else if (vista.getGuessed_genre().isSelected()) {
+                modelo.recommend_guessed_genre(vista.lista_canciones.getSelectionModel().getSelectedItem(), vista.getEtiqueta_flechitas().getValue());
+                System.out.println("se hace 2");
+                System.out.println(vista.lista_canciones.getSelectionModel().getSelectedItem() + "    " + vista.getEtiqueta_flechitas().getValue());
+            }
         }
     }
 

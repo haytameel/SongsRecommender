@@ -97,19 +97,20 @@ public class Kmeans implements Algorithm<Table, Integer> {
         }
         return res;
     }
-    private Integer nueva_asignacion(Row fila){
-        int pertenece=0;
-        double distancia= distance.calculateDistance(fila.getData(), centroides.get(0).getData());
+    private Integer nueva_asignacion(Row fila) {
+        int pertenece = 0;
+        double menorDistancia = distance.calculateDistance(fila.getData(), centroides.get(0).getData());
 
-        for (int i=1; i<numClusters; i++){
-            double posible= distance.calculateDistance(fila.getData(), centroides.get(i).getData());
-            if (distancia>posible){
-                pertenece=i;
-                distancia=posible;
+        for (int i = 1; i < numClusters; i++) {
+            double distancia = distance.calculateDistance(fila.getData(), centroides.get(i).getData());
+            if (distancia < menorDistancia) {
+                pertenece = i;
+                menorDistancia = distancia;
             }
         }
         return pertenece;
     }
+
 
     public Integer estimate(List<Double> dato) throws TableNotTrainedException {
         if (tabla == null) {

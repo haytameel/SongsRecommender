@@ -89,14 +89,16 @@ public class Modelo {
         recSys_kmeans.run(tabla, lista_nombres_canciones);
     }
     public void recommend_songs_features(String cancion, int recomendaciones) throws NameNotFoundException {
-        vista.getLista_recomendadas().getItems().clear();
-
-        vista.getLista_recomendadas().getItems().addAll(recSys_knn.recommend(cancion, recomendaciones));
+        String e=vista.lista_canciones.getSelectionModel().getSelectedItem();
+        List<String> sa=recSys_kmeans.recommend(cancion, recomendaciones);
+        sa.remove(e);
+        vista.getLista_recomendadas().getItems().addAll(sa);
     }
 
     public void recommend_guessed_genre(String genero, int recomendaciones) throws NameNotFoundException {
-        vista.getLista_recomendadas().getItems().clear();
+        String e=vista.lista_canciones.getSelectionModel().getSelectedItem();
         List<String> sa=recSys_kmeans.recommend(genero, recomendaciones);
+        sa.remove(e);
         vista.getLista_recomendadas().getItems().addAll(sa);
         System.out.println(sa.toString());
     }
@@ -104,14 +106,14 @@ public class Modelo {
     public void añadir_canciones() {
         vista.getLista_canciones().getItems().clear();
         for (int i = 0; i < lista_nombres_canciones.size(); i++) {
-            vista.getLista_canciones().getItems().add(lista_nombres_canciones.get(i));
+                vista.getLista_canciones().getItems().add(lista_nombres_canciones.get(i));
         }
     }
 
     public void añadir_generos(){
         vista.getLista_canciones().getItems().clear();
         for (int i = 0; i < lista_generos.size(); i++) {
-            vista.getLista_canciones().getItems().add(lista_generos.get(i));
+                vista.getLista_canciones().getItems().add(lista_generos.get(i));
         }
     }
 
