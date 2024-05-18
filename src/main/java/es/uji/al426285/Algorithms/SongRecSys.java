@@ -1,11 +1,17 @@
 package es.uji.al426285.Algorithms;
 
+import es.uji.al426285.Reader.CSV;
 import es.uji.al426285.Table.Table;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/*
+
 
 class SongRecSys {
     private RecSys recsys;
@@ -13,12 +19,6 @@ class SongRecSys {
     SongRecSys(String method) throws Exception {
         String sep = System.getProperty("file.separator");
         String ruta = "src"+sep+"Files"+sep+"Datos_y_codigo"+sep+"recsys"+sep+"songs_files";
-
-        String sep = System.getProperty("file.separator");
-        String iris = "src"+sep+"Files"+sep+"iris.csv";
-        String miles_dollars = "src"+sep+"Files"+sep+"miles_dollars.csv";
-        src/Files/iris.csv
-        src/Files/miles_dollars.csv
 
         // File names (could be provided as arguments to the constructor to be more general)
         Map<String,String> filenames = new HashMap<>();
@@ -83,5 +83,5 @@ class SongRecSys {
         new SongRecSys("kmeans");
     }
 }
-*/
+
 
