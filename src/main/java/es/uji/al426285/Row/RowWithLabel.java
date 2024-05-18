@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RowWithLabel extends Row {
-    private List<Double> linea;
     private int number_class;
 
     public RowWithLabel() {
-        this.linea = new ArrayList<>();
+        super();
         this.number_class = -1;
     }
 
     public RowWithLabel(List<Double> linea, int numero) {
-        this.linea = linea;
+        super(linea);
         this.number_class = numero;
     }
 
@@ -22,13 +21,13 @@ public class RowWithLabel extends Row {
     }
 
     public List<Double> getData() {
-        return linea;
+        return super.getData();
     }
 
     @Override
     public String toString() {
         String rowWithLabel = "";
-        for (Double valor : linea) {
+        for (Double valor : super.getLinea()) {
             rowWithLabel += valor + ", ";
         }
         rowWithLabel += getNumber_class();

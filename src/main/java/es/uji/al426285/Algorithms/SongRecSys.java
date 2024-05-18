@@ -46,7 +46,6 @@ class SongRecSys {
 
         // Start the RecSys
         this.recsys = new RecSys(algorithms.get(method));
-        algorithms.get(method);
         this.recsys.train(tables.get(method+"train"));
         this.recsys.run(tables.get(method+"test"), names);
 

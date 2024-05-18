@@ -16,6 +16,9 @@ public class Row {
     public List<Double> getData(){
         return linea;
     }
+    public List<Double> getLinea(){
+        return linea;
+    }
 
     @Override
     public String toString(){

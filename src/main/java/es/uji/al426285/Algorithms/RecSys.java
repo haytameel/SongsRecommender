@@ -4,6 +4,7 @@ import es.uji.al426285.Exceptions.FunctionNotExecutedException;
 import es.uji.al426285.Exceptions.NameNotFoundException;
 import es.uji.al426285.Exceptions.RowsLowerClustersException;
 import es.uji.al426285.Exceptions.TableNotTrainedException;
+import es.uji.al426285.Row.Row;
 import es.uji.al426285.Table.Table;
 
 import java.util.ArrayList;
@@ -36,7 +37,8 @@ public class RecSys implements Algorithm<Table, Integer> {
     public void run(Table testData, List<String> testItemNames) throws TableNotTrainedException {
         try {
             for (int i = 0; i < testData.getLista().size(); i++) {
-                Integer agrupacion = algorithm.estimate(testData.getLista().get(i).getData());
+                Row a=testData.getLista().get(i);
+                Integer agrupacion = algorithm.estimate(a.getData());
                 mapa.put(testItemNames.get(i), agrupacion);
             }
         } catch (Exception e) {
@@ -44,7 +46,6 @@ public class RecSys implements Algorithm<Table, Integer> {
         }
     }
 
-    ;
 
     public List<String> recommend(String nameLikedItem, int numRecommendations) throws NameNotFoundException {
         List<String> recomendaciones = new ArrayList<>();
