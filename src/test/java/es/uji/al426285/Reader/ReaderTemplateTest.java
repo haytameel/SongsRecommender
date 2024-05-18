@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//NO CREO QUE HAGA FALTA PORQ PROBAMOS LOS CSV LABELED Y UNLABELED
 class ReaderTemplateTest {
     String sep = System.getProperty("file.separator");
     String iris = "src"+sep+"Files"+sep+"iris.csv";

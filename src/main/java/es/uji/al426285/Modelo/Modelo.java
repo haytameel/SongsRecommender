@@ -102,14 +102,14 @@ public class Modelo {
         vista.getLista_recomendadas().getItems().addAll(sa);
     }
 
-    public void añadir_canciones() {
+    public void anadir_canciones() {
         vista.getLista_canciones().getItems().clear();
         for (int i = 0; i < lista_nombres_canciones.size(); i++) {
                 vista.getLista_canciones().getItems().add(lista_nombres_canciones.get(i));
         }
     }
 
-    public void añadir_generos(){
+    public void anadir_generos(){
         vista.getLista_canciones().getItems().clear();
         for (int i = 0; i < lista_generos.size(); i++) {
                 vista.getLista_canciones().getItems().add(lista_generos.get(i));

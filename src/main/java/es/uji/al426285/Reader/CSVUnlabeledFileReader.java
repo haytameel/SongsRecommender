@@ -67,7 +67,6 @@ public class CSVUnlabeledFileReader extends ReaderTemplate {
         RowWithLabel linea = new RowWithLabel(fila,-1);//creamos la linea que almacena los doubles y la añadimos al la lista de rows
        // super.getTabla().addRowWithLabel((RowWithLabel) linea)
         super.getTabla().addRowWithLabel(linea);
-     //   System.out.println(super.getLista_rows().toString());
     }
 
     @Override

@@ -3,11 +3,8 @@ package es.uji.al426285.Controlador;
 
 import es.uji.al426285.Algorithms.EuclideanDistance;
 import es.uji.al426285.Algorithms.ManhattanDistance;
-import es.uji.al426285.Exceptions.NameNotFoundException;
 import es.uji.al426285.Modelo.Modelo;
 import es.uji.al426285.View.Vista;
-
-import java.util.List;
 
 public class Controlador {
     private Modelo modelo;
@@ -22,12 +19,12 @@ public class Controlador {
     public void setModelo(Modelo modelo){
         this.modelo=modelo;
     }
-    public void añadir_canciones() {
-        modelo.añadir_canciones();
+    public void anadir_canciones() {
+        modelo.anadir_canciones();
     }
 
-    public void añadir_generos() {
-        modelo.añadir_generos();
+    public void anadir_generos() {
+        modelo.anadir_generos();
     }
 
 

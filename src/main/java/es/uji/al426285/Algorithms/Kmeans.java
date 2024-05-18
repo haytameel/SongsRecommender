@@ -48,13 +48,12 @@ public class Kmeans implements Algorithm<Table, Integer> {
         asignarGrupo();
     }
     private List<Row> calcularRepresentantes(){
-        // Paso 1: Elegir aleatoriamente un representante por cada grupo
+        // Elegir aleatoriamente un representante por cada grupo
         List<Row> repre = new ArrayList<>();
         Random semilla=new Random(seed);
         for (int i=0; i<numClusters; i++) {
             int num=Math.abs(semilla.nextInt()%tabla.getLista().size());
             repre.add(tabla.getRowAt(num));
-      //      System.out.println("representanteeee: "+tabla.getRowAt(num));
         }
         centroides= repre;
         return repre;

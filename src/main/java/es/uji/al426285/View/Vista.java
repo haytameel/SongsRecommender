@@ -106,7 +106,7 @@ public class Vista extends Application {
         setLightTheme(scene);
         boton_recomendar.setDisable(true);
         lista_canciones.setTooltip(new Tooltip("Double click for receomendations on this song"));
-        controlador.añadir_canciones();
+        controlador.anadir_canciones();
         checkbox_ordenar_genero.setDisable(true);
         boton_atras.setVisible(false);
 
@@ -163,12 +163,12 @@ public class Vista extends Application {
         Button boton_atrass = (Button) bra.getChildren().get(1);
         boton_atrass.setOnAction(e -> {
             if (is_list_genre) {
-                controlador.añadir_canciones();
+                controlador.anadir_canciones();
                 is_list_genre = false;
                 boton_atras.setVisible(false);
                 checkbox_ordenar_genero.fire();
             } else {
-                controlador.añadir_generos();
+                controlador.anadir_generos();
                 is_list_genre = true;
             }
         });
@@ -191,11 +191,11 @@ public class Vista extends Application {
         CheckBox ordenar_genero = (CheckBox) og.getChildren().get(1);
         ordenar_genero.setOnAction(e -> {
             if (ordenar_genero.isSelected()) {
-                controlador.añadir_generos();
+                controlador.anadir_generos();
                 is_list_genre = true;
                 boton_atras.setVisible(true);
             } else {
-                controlador.añadir_canciones();
+                controlador.anadir_canciones();
                 is_list_genre = false;
                 boton_atras.setVisible(false);
             }

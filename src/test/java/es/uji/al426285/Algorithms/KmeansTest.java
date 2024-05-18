@@ -18,11 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class KmeansTest {
     String sep = System.getProperty("file.separator");
-    String iris = "src"+sep+"Files"+sep+"iris.csv";
-    String miles_dollars = "src"+sep+"Files"+sep+"miles_dollars.csv";
-    Table tabla1;
+    String miles_dollars = "src" + sep + "Files" + sep + "miles_dollars.csv";
     Table tabla2;
-    Table tabla3;
     TableWithLabels tablaWithLabels1;
     Kmeans kexception;
     Kmeans k1;
@@ -35,6 +32,7 @@ class KmeansTest {
 
         k1 = new Kmeans(5, 5, 10000, new EuclideanDistance());
     }
+
     @Test
     void testExcepcionNumeroClustersInsuficiente() throws Exception {
         //EJEMPLO 1 PARA PROBAR
@@ -55,6 +53,7 @@ class KmeansTest {
         assertThrows(RowsLowerClustersException.class, () -> kmeans.train(tabla));
         assertThrows(RowsLowerClustersException.class, () -> kexception.train(tabla2));
     }
+
     @Test
     void estimate_excepcion() throws Exception {
         crear();
@@ -82,9 +81,8 @@ class KmeansTest {
         Kmeans kmeans = new Kmeans(numClusters, numIterators, seed, new EuclideanDistance());
 
         // Act & Assert
-        assertDoesNotThrow(() -> {
-            kmeans.train(tabla);
-        });
+        assertDoesNotThrow(() ->
+                kmeans.train(tabla));
     }
 
 
@@ -113,18 +111,21 @@ class KmeansTest {
         //los centroides calculados: {{9,2'3},{8'5,9'5},{2'125,3'1}}
 
         // se aproxima al segundo, deberia devolver 2
-        ArrayList<Double> prueba1=new ArrayList<>();
-        prueba1.add(0.5);prueba1.add(1.5);
+        ArrayList<Double> prueba1 = new ArrayList<>();
+        prueba1.add(0.5);
+        prueba1.add(1.5);
         Integer cluster1 = kmeans.estimate(prueba1);
 
         // se aproxima al primero, deberia devolver 1
-        ArrayList<Double> prueba2=new ArrayList<>();
-        prueba2.add(20.0);prueba2.add(19.5);
+        ArrayList<Double> prueba2 = new ArrayList<>();
+        prueba2.add(20.0);
+        prueba2.add(19.5);
         Integer cluster2 = kmeans.estimate(prueba2);
 
         // se aproxima al primero, deberia devolver 0
-        ArrayList<Double> prueba3=new ArrayList<>();
-        prueba3.add(8.2);prueba3.add(2.5);
+        ArrayList<Double> prueba3 = new ArrayList<>();
+        prueba3.add(8.2);
+        prueba3.add(2.5);
         Integer cluster3 = kmeans.estimate(prueba3);
 
 
@@ -133,6 +134,43 @@ class KmeansTest {
         assertEquals(1, cluster2); // El índice de los clústeres empieza en 0
         assertEquals(0, cluster3); // El índice de los clústeres empieza en 0
 
+
+    }
+
+
+    @Test
+    void estimate() throws TableNotTrainedException, RowsLowerClustersException {
+        List<RowWithLabel> data = Arrays.asList(
+                new RowWithLabel(Arrays.asList(1.0, 2.0), 0),
+                new RowWithLabel(Arrays.asList(1.5, 1.8), 0),
+                new RowWithLabel(Arrays.asList(5.0, 8.0), 1),
+                new RowWithLabel(Arrays.asList(8.0, 8.0), 1),
+                new RowWithLabel(Arrays.asList(1.0, 0.6), 0),
+                new RowWithLabel(Arrays.asList(9.0, 11.0), 2),
+                new RowWithLabel(Arrays.asList(8.0, 2.0), 1),
+                new RowWithLabel(Arrays.asList(10.0, 2.0), 2),
+                new RowWithLabel(Arrays.asList(9.0, 3.0), 2)
+        );
+        Table tabla = new Table();
+        tabla.addElements(data);
+        Kmeans kmeans = new Kmeans(3, 1, 123456789, new EuclideanDistance());
+        kmeans.train(tabla);
+        //prueba1
+        ArrayList<Double> prueba1 = new ArrayList<>();
+        prueba1.add(1.5);prueba1.add(2.5);//Se aproxima al 2
+        //prueba1
+        ArrayList<Double> prueba2 = new ArrayList<>();
+        prueba2.add(10.5);prueba2.add(4.5);//Se aproxima al 0
+        //prueba1
+        ArrayList<Double> prueba3 = new ArrayList<>();
+        prueba3.add(20.5);prueba3.add(21.5);//Se aproxima al 1
+
+        Integer grupo1=kmeans.estimate(prueba1);
+        Integer grupo2=kmeans.estimate(prueba2);
+        Integer grupo3=kmeans.estimate(prueba3);
+        assertEquals(grupo1,2);
+        assertEquals(grupo2,0);
+        assertEquals(grupo3,1);
 
     }
 }
