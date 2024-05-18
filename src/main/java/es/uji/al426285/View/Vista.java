@@ -27,6 +27,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Vista extends Application {
     private Modelo modelo;
     private Controlador controlador;
+    String sep=System.getProperty("file.separator");
+    private String ruta_icono="src"+sep+"Files"+sep+"imagen.png";
 
     public Vista() throws Exception {
         modelo = new Modelo();
@@ -49,35 +51,40 @@ public class Vista extends Application {
     //BOTON RECOMENDAR
     private Button boton_recomendar = new Button("Recommend...");
     private Button boton_cambiar_tema = new Button("Dark theme");
-    private boolean is_darktheme=false;
+    private boolean is_darktheme = false;
     private CheckBox checkbox_ordenar_genero = new CheckBox();
     //Para saber si está la opción de generos
-    private boolean is_list_genre=false;
-
-
+    private boolean is_list_genre = false;
     //LISTA QUE DEVOLVERÁ LAS CANCIONES RECOMENDADAS
     private ListView<String> lista_recomendadas = new ListView<>();
     //ETIQUETA DE LA RECOMENDACIÓN
-    Label etiqueta_recomendacion=new Label();
+    Label etiqueta_recomendacion = new Label();
     //BOTON CERRAR RECOMENDACIONES
     private Button boton_cerrar_recomendaciones = new Button("Close");
     Stage segundaVentana = new Stage();
     // Crear un BorderPane
     BorderPane borderPane1 = new BorderPane();
     BorderPane borderPane2 = new BorderPane();
-    BorderPane boton_recomendar_atras=new BorderPane();
+    BorderPane boton_recomendar_atras = new BorderPane();
 
     //Botón atrás para cambiar el genero
-    Button boton_atras =new Button("Back");
+    Button boton_atras = new Button("Back");
 
     //Caja para seleccionar el numero de recomendaciones a mostrar
     private Spinner<Integer> etiqueta_flechitas = new Spinner<>();
 
+    //para los checks
+    RadioButton radio_features;
+    RadioButton radio_genre;
+    RadioButton radio_euclidean;
+    RadioButton radio_manhattan;
+    AtomicBoolean boolean_lista_seleccionada;
+
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        AtomicBoolean boolean_lista_seleccionada = new AtomicBoolean(false);
+        boolean_lista_seleccionada = new AtomicBoolean(false);
         //icono de la ventana principal
-        InputStream entrada = new FileInputStream("src/main/java/es/uji/al426285/View/imagen.png");
+        InputStream entrada = new FileInputStream(ruta_icono);
         Image imagen = new Image(entrada);
         ImageView imagen_vista = new ImageView();
         stage.getIcons().add(imagen);
@@ -91,10 +98,10 @@ public class Vista extends Application {
         VBox vbox = vista();
 
 
-        RadioButton radio_features = (RadioButton) vbox.getChildren().get(1);
-        RadioButton radio_genre = (RadioButton) vbox.getChildren().get(2);
-        RadioButton radio_euclidean = (RadioButton) vbox.getChildren().get(4);
-        RadioButton radio_manhattan = (RadioButton) vbox.getChildren().get(5);
+        radio_features = (RadioButton) vbox.getChildren().get(1);
+        radio_genre = (RadioButton) vbox.getChildren().get(2);
+        radio_euclidean = (RadioButton) vbox.getChildren().get(4);
+        radio_manhattan = (RadioButton) vbox.getChildren().get(5);
         var scene = new Scene(new StackPane(vbox), 640, 480);
         setLightTheme(scene);
         boton_recomendar.setDisable(true);
@@ -102,79 +109,42 @@ public class Vista extends Application {
         controlador.añadir_canciones();
         checkbox_ordenar_genero.setDisable(true);
         boton_atras.setVisible(false);
-        radio_features.setOnAction(e -> {
-            if (radio_features.isSelected()) {
-                if (radio_euclidean.isSelected() || radio_manhattan.isSelected() && boolean_lista_seleccionada.get()) {
-                    boton_recomendar.setDisable(false);
-                } else {
-                    boton_recomendar.setDisable(true);
-                }
-            }
-        });
-        radio_genre.setOnAction(e -> {
-            if (radio_genre.isSelected()) {
-                if (radio_euclidean.isSelected() || radio_manhattan.isSelected() && boolean_lista_seleccionada.get()) {
-                    boton_recomendar.setDisable(false);
-                } else {
-                    boton_recomendar.setDisable(true);
-                }
-            }
-        });
-        radio_manhattan.setOnAction(e -> {
-            if (radio_manhattan.isSelected()) {
-                try {
-                    controlador.entrenar();
-                    checkbox_ordenar_genero.setDisable(false);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                if ((radio_features.isSelected() || radio_genre.isSelected()) && boolean_lista_seleccionada.get()) {
-                    boton_recomendar.setDisable(false);
-                } else {
-                    boton_recomendar.setDisable(true);
-                }
-            }
-        });
-        radio_euclidean.setOnAction(e -> {
-            if (radio_euclidean.isSelected()) {
-                try {
-                    controlador.entrenar();
-                    checkbox_ordenar_genero.setDisable(false);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                if ((radio_features.isSelected() || radio_genre.isSelected()) && boolean_lista_seleccionada.get()) {
-                    boton_recomendar.setDisable(false);
-                } else {
-                    boton_recomendar.setDisable(true);
-                }
-            }
-        });
+
+        //opcion "recommend based on song features"
+        radio_features.setOnAction(e -> check_recommend(radio_features));
+        //opcion "recommend based on guessed genre"
+        radio_genre.setOnAction(e -> check_recommend(radio_genre));
+
+        //opcion "manhattan"
+        radio_manhattan.setOnAction(e -> check_distance(radio_manhattan));
+        //opcion "euclidean"
+        radio_euclidean.setOnAction(e -> check_distance(radio_euclidean));
 
         lista_canciones.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-            //  System.out.println("Elemento seleccionado: " + lista_canciones.getItems().get(newValue.intValue()));
+            //  para ver el elemento seleccionado
+            //String cancion_seleccionada=lista_canciones.getItems().get(newValue.intValue());
             boolean_lista_seleccionada.set(true);
-            if ((radio_manhattan.isSelected() || radio_euclidean.isSelected()) && (radio_features.isSelected() || radio_genre.isSelected())) {
+            if ((radio_manhattan.isSelected() || radio_euclidean.isSelected()) && (radio_features.isSelected() || radio_genre.isSelected()) ) {
                 boton_recomendar.setDisable(false);
-            } else
-            {
-                boton_recomendar.setDisable(true);}
+            } else {
+                boton_recomendar.setDisable(true);
+            }
 
         });
         lista_canciones.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2) {
-                if (is_list_genre){
+                if (is_list_genre) {
                     controlador.getCanciones();
-                    is_list_genre=false;
-                }else {
+                    is_list_genre = false;
+                } else {
                     boton_recomendar.fire();
                 }
             }
 
         });
-        BorderPane bra=(BorderPane) vbox.getChildren().get(8);
-        Button boton= (Button)bra.getChildren().get(0);
-        boton.setOnAction(e-> {
+        BorderPane bra = (BorderPane) vbox.getChildren().get(8);
+        Button boton = (Button) bra.getChildren().get(0);
+        boton.setOnAction(e -> {
             try {
                 segundaVentana.close();
                 ventana2();
@@ -190,45 +160,43 @@ public class Vista extends Application {
             aplicarEstiloBoton(boton_cerrar_recomendaciones);
 
         });
-        Button boton_atrass= (Button)bra.getChildren().get(1);
-        boton_atrass.setOnAction(e->{
+        Button boton_atrass = (Button) bra.getChildren().get(1);
+        boton_atrass.setOnAction(e -> {
             if (is_list_genre) {
                 controlador.añadir_canciones();
                 is_list_genre = false;
                 boton_atras.setVisible(false);
                 checkbox_ordenar_genero.fire();
-            }
-            else {
+            } else {
                 controlador.añadir_generos();
-                is_list_genre=true;
+                is_list_genre = true;
             }
         });
-        BorderPane borderpane1=(BorderPane) vbox.getChildren().get(0);
-        Button dark_theme=(Button) borderpane1.getChildren().get(1);
-        dark_theme.setOnAction(e-> {
-                    if (is_darktheme){
+        BorderPane borderpane1 = (BorderPane) vbox.getChildren().get(0);
+        Button dark_theme = (Button) borderpane1.getChildren().get(1);
+        dark_theme.setOnAction(e -> {
+                    if (is_darktheme) {
                         setLightTheme(scene);
-                        is_darktheme=false;
-                    }
-                    else {
+                        is_darktheme = false;
+                    } else {
                         setDarkTheme(scene);
-                        is_darktheme=true;
+                        is_darktheme = true;
                     }
                 }
         );
 
 
         BorderPane borderpane2 = (BorderPane) vbox.getChildren().get(6);
-        HBox og=(HBox) borderpane2.getChildren().get(1);
-        CheckBox ordenar_genero=(CheckBox) og.getChildren().get(1);
-        ordenar_genero.setOnAction(e->{
-            if (ordenar_genero.isSelected()){
+        HBox og = (HBox) borderpane2.getChildren().get(1);
+        CheckBox ordenar_genero = (CheckBox) og.getChildren().get(1);
+        ordenar_genero.setOnAction(e -> {
+            if (ordenar_genero.isSelected()) {
                 controlador.añadir_generos();
-                is_list_genre=true;
+                is_list_genre = true;
                 boton_atras.setVisible(true);
-            }else {
+            } else {
                 controlador.añadir_canciones();
-                is_list_genre=false;
+                is_list_genre = false;
                 boton_atras.setVisible(false);
             }
         });
@@ -241,6 +209,32 @@ public class Vista extends Application {
 
     }
 
+    private void check_recommend(RadioButton radiobutton) {
+        //opcion "recommend based on song features" o "recommend based on guessed genre"
+        if (radiobutton.isSelected()) {
+            if (radio_euclidean.isSelected() || radio_manhattan.isSelected() && boolean_lista_seleccionada.get()) {
+                boton_recomendar.setDisable(false);
+            } else {
+                boton_recomendar.setDisable(true);
+            }
+        }
+    }
+
+    private void check_distance(RadioButton radiobutton){
+        if (radiobutton.isSelected()) {
+            try {
+                controlador.entrenar();
+                checkbox_ordenar_genero.setDisable(false);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            if ((radio_features.isSelected() || radio_genre.isSelected()) && boolean_lista_seleccionada.get()) {
+                boton_recomendar.setDisable(false);
+            } else {
+                boton_recomendar.setDisable(true);
+            }
+        }
+    }
 
     private VBox vista() {
         //hay que asignar los radiobuttons a su grupo
@@ -262,8 +256,8 @@ public class Vista extends Application {
         //creamos la caja vertical
         VBox vbox = new VBox(borderPane1, song_features, guessed_genre,
                 distance_label, euclidean, manhattan,
-                borderPane2, lista_canciones,boton_recomendar_atras
-                );
+                borderPane2, lista_canciones, boton_recomendar_atras
+        );
         vbox.setSpacing(6);
         vbox.setPadding(new Insets(10, 10, 10, 10));
 
@@ -288,7 +282,7 @@ public class Vista extends Application {
         borderPane1.setRight(boton_cambiar_tema);
         borderPane2.setLeft(songs_label);
         borderPane2.setRight(checkBoxWithText);
-        VBox vborderPane2=new VBox(2);
+        VBox vborderPane2 = new VBox(2);
 
 
 //NO ES NECESARIO
@@ -313,27 +307,25 @@ public class Vista extends Application {
         );
 
 
-
         vbox2.setSpacing(6);
         vbox2.setPadding(new Insets(10, 10, 10, 10));
 
         Scene scene2 = new Scene(new StackPane(vbox2), 400, 300);
-        if (!is_darktheme){
+        if (!is_darktheme) {
             setLightTheme(scene2);
-        }
-        else {
+        } else {
             setDarkTheme(scene2);
         }
         segundaVentana.setScene(scene2);
         segundaVentana.setTitle("Recommended titles");
         segundaVentana.setX(800);
         segundaVentana.setY(150);
-        InputStream entrada = new FileInputStream("src/main/java/es/uji/al426285/View/imagen.png");
+        InputStream entrada = new FileInputStream(ruta_icono);
         Image imagen = new Image(entrada);
         segundaVentana.getIcons().add(imagen);
         segundaVentana.show();
-        FlowPane pane=(FlowPane) vbox2.getChildren().get(0);
-        Spinner<Integer> spinner=(Spinner<Integer>) pane.getChildren().get(1);
+        FlowPane pane = (FlowPane) vbox2.getChildren().get(0);
+        Spinner<Integer> spinner = (Spinner<Integer>) pane.getChildren().get(1);
         spinner.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 controlador.recomendar();
@@ -344,9 +336,9 @@ public class Vista extends Application {
         });
         controlador.modificar_etiqueta_recomendacion();
 
-        Button boton_cerrar=(Button) vbox2.getChildren().get(3);
-        boton_cerrar.setOnAction(e->{
-                segundaVentana.close();
+        Button boton_cerrar = (Button) vbox2.getChildren().get(3);
+        boton_cerrar.setOnAction(e -> {
+            segundaVentana.close();
         });
 
     }
@@ -443,10 +435,10 @@ public class Vista extends Application {
     public Button getBoton_cerrar_recomendaciones() {
         return boton_cerrar_recomendaciones;
     }
+
     public Spinner<Integer> getEtiqueta_flechitas() {
         return etiqueta_flechitas;
     }
-
 
 
     public static void main(String[] args) {

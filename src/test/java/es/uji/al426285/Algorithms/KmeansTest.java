@@ -7,6 +7,7 @@ import es.uji.al426285.Exceptions.TableNotTrainedException;
 import es.uji.al426285.Row.Row;
 import es.uji.al426285.Row.RowWithLabel;
 import es.uji.al426285.Table.Table;
+import es.uji.al426285.Table.TableWithLabels;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,9 +17,52 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KmeansTest {
+    String sep = System.getProperty("file.separator");
+    String iris = "src"+sep+"Files"+sep+"iris.csv";
+    String miles_dollars = "src"+sep+"Files"+sep+"miles_dollars.csv";
+    Table tabla1;
+    Table tabla2;
+    Table tabla3;
+    TableWithLabels tablaWithLabels1;
+    Kmeans kexception;
+    Kmeans k1;
+
+    void crear() throws Exception {
+        tabla2 = new Table(miles_dollars);
+
+        tablaWithLabels1 = new TableWithLabels(miles_dollars);
+        kexception = new Kmeans(155, 5, 10000, new EuclideanDistance());
+
+        k1 = new Kmeans(5, 5, 10000, new EuclideanDistance());
+    }
     @Test
-    void testEntrenamientoExitoso() {
-        // Arrange
+    void testExcepcionNumeroClustersInsuficiente() throws Exception {
+        //EJEMPLO 1 PARA PROBAR
+        crear();
+        //EJEMPLO 2 PARA PROBAR
+        int numClusters = 10; // Número mayor que el número de filas en los datos
+        int numIterators = 1;
+        long seed = 123456789;
+        List<RowWithLabel> data = Arrays.asList(
+                new RowWithLabel(Arrays.asList(1.0, 2.0), 0),
+                new RowWithLabel(Arrays.asList(1.5, 1.8), 0)
+        );
+        Table tabla = new Table();
+        tabla.addElements(data);
+        Kmeans kmeans = new Kmeans(numClusters, numIterators, seed, new EuclideanDistance());
+
+
+        assertThrows(RowsLowerClustersException.class, () -> kmeans.train(tabla));
+        assertThrows(RowsLowerClustersException.class, () -> kexception.train(tabla2));
+    }
+    @Test
+    void estimate_excepcion() throws Exception {
+        crear();
+        assertThrows(TableNotTrainedException.class, () -> k1.estimate(tabla2.getLista().get(0).getData()));
+    }
+
+    @Test
+    void testEntrenamientoExitoso() {//que que haga bien el train y no se lance error
         int numClusters = 3;
         int numIterators = 1;
         long seed = 123456789;
@@ -43,25 +87,6 @@ class KmeansTest {
         });
     }
 
-    @Test
-    void testExcepcionNumeroClustersInsuficiente() {
-        // Arrange
-        int numClusters = 10; // Número mayor que el número de filas en los datos
-        int numIterators = 1;
-        long seed = 123456789;
-        List<RowWithLabel> data = Arrays.asList(
-                new RowWithLabel(Arrays.asList(1.0, 2.0), 0),
-                new RowWithLabel(Arrays.asList(1.5, 1.8), 0)
-        );
-        Table tabla = new Table();
-        tabla.addElements(data);
-        Kmeans kmeans = new Kmeans(numClusters, numIterators, seed, new EuclideanDistance());
-
-        // Act & Assert
-        assertThrows(RowsLowerClustersException.class, () -> {
-            kmeans.train(tabla);
-        });
-    }
 
     @Test
     void testAgrupamiento() throws TableNotTrainedException, RowsLowerClustersException {
@@ -112,53 +137,3 @@ class KmeansTest {
     }
 }
 
-/*package es.uji.al426285.Algorithms;
-
-import es.uji.al426285.Exceptions.RowsLowerClustersException;
-import es.uji.al426285.Exceptions.TableNotTrainedException;
-import es.uji.al426285.Table.Table;
-import es.uji.al426285.Table.TableWithLabels;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-//sin etiquetas
-
-class KmeansTest {
-    String sep = System.getProperty("file.separator");
-    String iris = "src"+sep+"Files"+sep+"iris.csv";
-    String miles_dollars = "src"+sep+"Files"+sep+"miles_dollars.csv";
-    Table tabla1;
-    Table tabla2;
-    Table tabla3;
-    TableWithLabels tablaWithLabels1;
-    Kmeans kexception;
-    Kmeans k1;
-
-    void crear() throws Exception {
-        tabla2 = new Table(miles_dollars);
-
-        tablaWithLabels1 = new TableWithLabels(miles_dollars);
-        kexception = new Kmeans(155, 5, 10000, new EuclideanDistance());
-
-        k1 = new Kmeans(5, 5, 10000, new EuclideanDistance());
-    }
-
-    @Test
-    void train() throws Exception {
-        crear();
-        assertThrows(RowsLowerClustersException.class, () -> kexception.train(tabla2));
-    }
-    @Test
-    void estimate() throws Exception {
-        crear();
-        assertThrows(TableNotTrainedException.class, () -> k1.estimate(tabla2.getLista().get(0).getData()));
-
-    }
-
-    @Test
-    void calcularRepresentantes() throws RowsLowerClustersException, Exception {
-        crear();
-        k1.train(tabla2);
-    }
-}
-*/
