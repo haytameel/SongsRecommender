@@ -124,10 +124,13 @@ public class Vista extends Application {
             //  para ver el elemento seleccionado
             //String cancion_seleccionada=lista_canciones.getItems().get(newValue.intValue());
             boolean_lista_seleccionada.set(true);
-            if ((radio_manhattan.isSelected() || radio_euclidean.isSelected()) && (radio_features.isSelected() || radio_genre.isSelected()) ) {
+            if ((radio_manhattan.isSelected() || radio_euclidean.isSelected()) && (radio_features.isSelected() || radio_genre.isSelected())&&!is_list_genre ) {
                 boton_recomendar.setDisable(false);
+                boton_recomendar.setText("Recommend on "+lista_canciones.getSelectionModel().getSelectedItem());
             } else {
                 boton_recomendar.setDisable(true);
+                boton_recomendar.setText("Recommend...");
+
             }
 
         });
@@ -162,14 +165,19 @@ public class Vista extends Application {
         });
         Button boton_atrass = (Button) bra.getChildren().get(1);
         boton_atrass.setOnAction(e -> {
+
             if (is_list_genre) {
                 controlador.anadir_canciones();
                 is_list_genre = false;
                 boton_atras.setVisible(false);
                 checkbox_ordenar_genero.fire();
+                boton_recomendar.setDisable(true);
+                boton_recomendar.setText("Recommend...");
             } else {
                 controlador.anadir_generos();
                 is_list_genre = true;
+                boton_recomendar.setDisable(true);
+                boton_recomendar.setText("Recommend...");
             }
         });
         BorderPane borderpane1 = (BorderPane) vbox.getChildren().get(0);
@@ -177,9 +185,11 @@ public class Vista extends Application {
         dark_theme.setOnAction(e -> {
                     if (is_darktheme) {
                         setLightTheme(scene);
+                        boton_cambiar_tema.setText("Dark theme");
                         is_darktheme = false;
                     } else {
                         setDarkTheme(scene);
+                        boton_cambiar_tema.setText("Light theme");
                         is_darktheme = true;
                     }
                 }
@@ -194,10 +204,14 @@ public class Vista extends Application {
                 controlador.anadir_generos();
                 is_list_genre = true;
                 boton_atras.setVisible(true);
+                boton_recomendar.setDisable(true);
+                boton_recomendar.setText("Recommend...");
             } else {
                 controlador.anadir_canciones();
                 is_list_genre = false;
                 boton_atras.setVisible(false);
+                boton_recomendar.setDisable(true);
+                boton_recomendar.setText("Recommend...");
             }
         });
 
@@ -212,10 +226,13 @@ public class Vista extends Application {
     private void check_recommend(RadioButton radiobutton) {
         //opcion "recommend based on song features" o "recommend based on guessed genre"
         if (radiobutton.isSelected()) {
-            if (radio_euclidean.isSelected() || radio_manhattan.isSelected() && boolean_lista_seleccionada.get()) {
+            if (radio_euclidean.isSelected() || radio_manhattan.isSelected() && boolean_lista_seleccionada.get()&&!is_list_genre) {
                 boton_recomendar.setDisable(false);
+                boton_recomendar.setText("Recommend on "+lista_canciones.getSelectionModel().getSelectedItem());
             } else {
                 boton_recomendar.setDisable(true);
+                boton_recomendar.setText("Recommend...");
+
             }
         }
     }
