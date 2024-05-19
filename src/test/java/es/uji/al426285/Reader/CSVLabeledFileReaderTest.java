@@ -50,8 +50,9 @@ class CSVLabeledFileReaderTest {
     @Test
     void openSource() throws Exception {
         empezar();
+        //probamos ruta errónea
         assertThrows(FileNotFoundException.class, () -> labeled.openSource("src/main/java/es/uji/al426285/Files/iriss.csv"));
-
+        assertDoesNotThrow(() ->labeled.openSource(iris));
     }
 
     @Test
@@ -69,7 +70,7 @@ class CSVLabeledFileReaderTest {
         labeled.processData(data2);
         labeled.processData(data3);
 
-        //Podriamos usar en su lugar un aseerttrue:assertTrue(labeled.getLista_rows().get(0).getData().equals(data1_lista));
+        //Podriamos usar en su lugar un aseerttrue--> assertTrue(labeled.getLista_rows().get(0).getData().equals(data1_lista));
         assertEquals(labeled.getLista_rows().get(0).getData(), data1_lista);
         assertEquals(labeled.getLista_rows().get(1).getData(), data2_lista);
         assertEquals(labeled.getLista_rows().get(2).getData(), data3_lista);

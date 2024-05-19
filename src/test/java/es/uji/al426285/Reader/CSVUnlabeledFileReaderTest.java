@@ -29,10 +29,6 @@ class CSVUnlabeledFileReaderTest {
 
 
     CSVUnlabeledFileReader unlabeled=new CSVUnlabeledFileReader("src/main/java/es/uji/al426285/Files/miles_dollars.csv");
-//    CSVLabeledFileReader labeled=new CSVLabeledFileReader("src/main/java/es/uji/al426285/Files/iris.csv");
-//
-//    CSVUnlabeledFileReader unlabeled_error=new CSVUnlabeledFileReader("src/main/java/es/uji/al426285/Files/iris.csv");
-//    CSVLabeledFileReader labeled_error=new CSVLabeledFileReader("src/main/java/es/uji/al426285/Files/miles_dollars.csv");
 
     public void empezar() throws Exception {
         tabla_sin_etiquetas =new Table(miles_dollars);
