@@ -131,8 +131,8 @@ class KmeansTest {
 
         // Assert
         assertEquals(2, cluster1); // El índice de los clústeres empieza en 0
-        assertEquals(1, cluster2); // El índice de los clústeres empieza en 0
-        assertEquals(0, cluster3); // El índice de los clústeres empieza en 0
+        assertEquals(1, cluster2);
+        assertEquals(0, cluster3);
 
 
     }
