@@ -18,18 +18,22 @@ Utiliza algoritmos de recomendación basados en aproximaciones matemáticas, com
 - **Interfaz Gráfica**: JavaFX
 - **Gestión de Proyectos**: Maven
 - **Entorno de Desarrollo**: IntelliJ IDEA
----
+
 ## Interfaz Gráfica
-- **Recomendación de 5 canciones parecidas a la canción "Headbangers"**
-![Interfaz Gráfica](src/Files/Imagen1.png)
+
+- **Recomendación de 5 canciones parecidas a la canción "Headbangers"**:
+  ![Recomendación de 5 canciones parecidas a la canción "Headbangers"](src/Files/Imagen1.png)
 
 ---
-- **Agrupación de las canciones por géneros**
-![Interfaz Gráfica](src/Files/Imagen2.png)
+
+- **Agrupación de las canciones por géneros**:
+  ![Agrupación de las canciones por géneros](src/Files/Imagen2.png)
 
 ---
-- **Recomendación de 5 canciones parecidas al género de la canción "Tech House..."**
-![Interfaz Gráfica](src/Files/Imagen3.png)
+
+- **Recomendación de 5 canciones parecidas al género de la canción "Tech House..."**:
+  ![Recomendación de 5 canciones parecidas al género de la canción "Tech House..."](src/Files/Imagen3.png)
+
 
 
 
