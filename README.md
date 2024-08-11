@@ -18,13 +18,13 @@ Utiliza algoritmos de recomendación basados en aproximaciones matemáticas, com
 - **Interfaz Gráfica**: JavaFX
 - **Gestión de Proyectos**: Maven
 - **Entorno de Desarrollo**: IntelliJ IDEA
-
+---
 ## Interfaz Gráfica
 - **Recomendación de 5 canciones parecidas a la canción "Headbangers"**
 ![Interfaz Gráfica](src/Files/Imagen1.png)
 
 ---
-**Agrupación de las canciones por géneros**
+- **Agrupación de las canciones por géneros**
 ![Interfaz Gráfica](src/Files/Imagen2.png)
 
 ---
