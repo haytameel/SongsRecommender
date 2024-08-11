@@ -20,6 +20,9 @@ Utiliza algoritmos de recomendación basados en aproximaciones matemáticas, com
 - **Entorno de Desarrollo**: IntelliJ IDEA
 
 ![Interfaz Gráfica](src/Files/Imagen1.png)
+![Interfaz Gráfica](src/Files/Imagen2.png)
+![Interfaz Gráfica](src/Files/Imagen3.png)
+
 
 
 
