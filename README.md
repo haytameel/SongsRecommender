@@ -23,11 +23,11 @@ Utiliza algoritmos de recomendación basados en aproximaciones matemáticas, com
 - **Recomendación de 5 canciones parecidas a la canción "Headbangers"**
 ![Interfaz Gráfica](src/Files/Imagen1.png)
 
-
+---
 - **Agrupación de las canciones por géneros**
 ![Interfaz Gráfica](src/Files/Imagen2.png)
 
-
+---
 - **Recomendación de 5 canciones parecidas al género de la canción "Tech House..."**
 ![Interfaz Gráfica](src/Files/Imagen3.png)
 
