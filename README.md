@@ -19,7 +19,7 @@ Utiliza algoritmos de recomendación basados en aproximaciones matemáticas, com
 - **Gestión de Proyectos**: Maven
 - **Entorno de Desarrollo**: IntelliJ IDEA
 
-![Interfaz Gráfica](img/imagen1)
+![Interfaz Gráfica](src/Files/Imagen1.png)
 
 
 
